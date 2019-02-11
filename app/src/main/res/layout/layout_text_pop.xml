@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#80f41c1c"
+    android:divider="@drawable/divider_gray"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+    <!--@drawable/ic_text_pop-->
+
+    <Button
+        android:id="@+id/btn_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/copy"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/edit"
+        android:textSize="14sp" />
+</LinearLayout>

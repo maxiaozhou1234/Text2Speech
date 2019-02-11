@@ -3,23 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <item android:title="发音选择">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_bd"
+                    android:checked="true"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="百度" />
+                <item
+                    android:id="@+id/nav_xf"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="讯飞" />
+            </group>
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="发音设置" />
+
+        <item
+            android:id="@+id/nav_download"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="已下载" />
+        <item
+            android:id="@+id/nav_save"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="历史文本" />
     </group>
 
     <item android:title="Communicate">

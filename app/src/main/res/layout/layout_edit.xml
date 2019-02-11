@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editPad"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="6dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_round_gray"
+        android:gravity="top"
+        android:hint="请输入文本"
+        android:inputType="textMultiLine"
+        android:padding="6dp"
+        android:textColorHint="@color/gray"
+        android:textIsSelectable="true"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_download"
+            android:scaleType="centerInside"
+            android:text="@string/download" />
+
+        <Button
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_play"
+            android:scaleType="centerInside"
+            android:text="@string/play" />
+
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_stop"
+            android:scaleType="centerInside"
+            android:text="@string/stop" />
+
+
+        <Button
+            android:id="@+id/clean"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_clean"
+            android:scaleType="centerInside"
+            android:text="@string/clean" />
+    </LinearLayout>
+
+
+</LinearLayout>

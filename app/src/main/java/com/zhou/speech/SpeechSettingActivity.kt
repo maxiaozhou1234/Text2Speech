@@ -1,20 +1,17 @@
 package com.zhou.speech
 
-import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import com.baidu.tts.client.SpeechSynthesizer
-import com.zhou.speech.common.FileAdapter
-import com.zhou.speech.common.FileUtil
-import com.zhou.speech.speak.PcmUtil
+import com.zhou.speech.common.BaseActivity
+import com.zhou.speech.common.hideSoftInput
 import com.zhou.speech.speak.Speaker
 
-class SpeechSettingActivity : AppCompatActivity() {
+/**
+ * 语音合成配置
+ */
+class SpeechSettingActivity : BaseActivity() {
 
     lateinit var radioGroup: RadioGroup
     lateinit var tvSpeed: TextView
@@ -25,11 +22,11 @@ class SpeechSettingActivity : AppCompatActivity() {
     lateinit var sbVolume: SeekBar
     lateinit var editText: EditText
     lateinit var btnPlay: Button
-    lateinit var btnDownload: Button
-    lateinit var recyclerView: RecyclerView
+//    lateinit var btnDownload: Button
+//    lateinit var recyclerView: RecyclerView
 
-    val data = arrayListOf<String>()
-    lateinit var adapter: FileAdapter
+//    val data = arrayListOf<String>()
+//    lateinit var adapter: FileAdapter
 
     private var isParamChange = false
 
@@ -38,15 +35,13 @@ class SpeechSettingActivity : AppCompatActivity() {
             SpeechSynthesizer.PARAM_SPEED to "7",
             SpeechSynthesizer.PARAM_PITCH to "5")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setContentView() {
         setContentView(R.layout.activity_setting_speech)
-
-        init()
-        addListener()
     }
 
-    private fun init() {
+    override fun init() {
+        supportActionBar?.title = "发音设置"
+
         radioGroup = findViewById(R.id.radioGroup)
         sbSpeed = findViewById(R.id.sbSpeed)
         sbTone = findViewById(R.id.sbTone)
@@ -58,9 +53,9 @@ class SpeechSettingActivity : AppCompatActivity() {
 
         editText = findViewById(R.id.editText)
         btnPlay = findViewById(R.id.btnPlay)
-        btnDownload = findViewById(R.id.btnDownload)
+//        btnDownload = findViewById(R.id.btnDownload)
 
-        recyclerView = findViewById(R.id.recyclerView)
+//        recyclerView = findViewById(R.id.recyclerView)
 
         sbSpeed.tag = tvSpeed
         sbTone.tag = tvTone
@@ -68,16 +63,16 @@ class SpeechSettingActivity : AppCompatActivity() {
 
         Speaker.get().init(this, handler)
 
-        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+//        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+//        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
-        data.addAll(FileUtil.getDownloadFiles())
-        adapter = FileAdapter(this, data)
-        recyclerView.adapter = adapter
+//        data.addAll(FileUtil.getDownloadFiles())
+//        adapter = FileAdapter(this, data)
+//        recyclerView.adapter = adapter
 
     }
 
-    private fun addListener() {
+    override fun addListener() {
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             var type = "0"
             isParamChange = true
@@ -101,32 +96,33 @@ class SpeechSettingActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             editText.clearFocus()
+            hideSoftInput(this@SpeechSettingActivity, it.windowToken)
             if (isParamChange) Speaker.get().speak(text, map)
             else Speaker.get().speak(text)
             isParamChange = false
         }
 
-        btnDownload.setOnClickListener {
-            val text = editText.text.toString()
-            if (text.isEmpty()) {
-                Toast.makeText(this@SpeechSettingActivity, "无需合成文本", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            editText.clearFocus()
-            if (isParamChange) Speaker.get().synthesize(text, map)
-            else Speaker.get().synthesize(text)
-            isParamChange = false
-        }
+//        btnDownload.setOnClickListener {
+//            val text = editText.text.toString()
+//            if (text.isEmpty()) {
+//                Toast.makeText(this@SpeechSettingActivity, "无需合成文本", Toast.LENGTH_LONG).show()
+//                return@setOnClickListener
+//            }
+//            editText.clearFocus()
+//            if (isParamChange) Speaker.get().synthesize(text, map)
+//            else Speaker.get().synthesize(text)
+//            isParamChange = false
+//        }
 
         findViewById<View>(R.id.btnClean).setOnClickListener {
             editText.setText("")
             editText.clearFocus()
         }
 
-        adapter.setOnItemClickListener { file, _ ->
-//            FileUtil.openFile(this@SpeechSettingActivity, file)
-            PcmUtil.instance.play(file)
-        }
+//        adapter.setOnItemClickListener { file, _ ->
+//            //            FileUtil.openFile(this@SpeechSettingActivity, file)
+//            PcmUtil.instance.play(file)
+//        }
     }
 
     private val seekListener = object : SeekBar.OnSeekBarChangeListener {
@@ -157,8 +153,8 @@ class SpeechSettingActivity : AppCompatActivity() {
             0 -> {
                 val name = msg.obj as String
                 Toast.makeText(this, "合成成功$name", Toast.LENGTH_LONG).show()
-                data.add(0, name)
-                adapter.notifyDataSetChanged()
+//                data.add(0, name)
+//                adapter.notifyDataSetChanged()
             }
         }
         true

@@ -34,7 +34,7 @@ class PcmUtil private constructor() {
         if (fileName.length > 5) {
             f = fileName.substring(0, 5)
         }
-        val file = File("$downloadPath$f-${format.format(Date())}.pcm")
+        val file = File("$downloadPath$f${format.format(Date())}.pcm")
         if (!file.exists()) {
             if (!file.parentFile.exists()) {
                 file.parentFile.mkdirs()

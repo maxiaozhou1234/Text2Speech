@@ -2,13 +2,16 @@
     <string name="app_name">Speech</string>
     <string name="clean">清空</string>
     <string name="download">下载</string>
-    <string name="speech">播放</string>
+    <string name="play">播放</string>
+    <string name="stop">停止</string>
 
-    <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="edit">编辑</string>
+
+    <string name="copy">复制</string>
+    <string name="success">操作成功</string>
 </resources>
