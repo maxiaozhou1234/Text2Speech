@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
@@ -32,13 +33,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SpeechSettingActivity"
+            android:name=".activity.SpeechSettingActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".SpeechFileActivity"
+            android:name=".activity.SpeechFileActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".activity.HistoryActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.EditActivity"
             android:windowSoftInputMode="stateHidden" />
 
         <provider

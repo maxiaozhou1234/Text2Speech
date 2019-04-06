@@ -4,16 +4,15 @@ import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
-import android.os.Handler
+import android.media.AudioTrack.PLAYSTATE_PAUSED
 import android.util.Log
 import com.zhou.speech.common.FileUtil.downloadPath
+import io.reactivex.Observable
 import java.io.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PcmUtil private constructor() {
 
-    private var fileName: String? = null
+    private var bos: BufferedOutputStream? = null
 
     companion object {
         val instance = INSTANCE.instance
@@ -23,18 +22,10 @@ class PcmUtil private constructor() {
         val instance = PcmUtil()
     }
 
-    private val format = SimpleDateFormat("_yyyy_MM_dd_HH:mm:ss", Locale.getDefault())
 
-    private var bos: BufferedOutputStream? = null
-    private var handler: Handler? = null
+    fun createFile(fileName: String) {
 
-    fun createFile(fileName: String, handler: Handler) {
-        this@PcmUtil.handler = handler
-        var f = fileName
-        if (fileName.length > 5) {
-            f = fileName.substring(0, 5)
-        }
-        val file = File("$downloadPath$f${format.format(Date())}.pcm")
+        val file = File(fileName)
         if (!file.exists()) {
             if (!file.parentFile.exists()) {
                 file.parentFile.mkdirs()
@@ -42,7 +33,6 @@ class PcmUtil private constructor() {
             file.createNewFile()
         }
         bos = BufferedOutputStream(FileOutputStream(file))
-        this@PcmUtil.fileName = file.name
     }
 
     fun write(p1: ByteArray?) {
@@ -50,18 +40,11 @@ class PcmUtil private constructor() {
     }
 
     fun done() {
+
         bos?.close()
         if (bos != null) {
             bos = null
             Log.d("speaker", "下载完成 bos = $bos")
-            handler?.apply {
-                val msg = obtainMessage()
-                msg.what = 0
-                msg.obj = fileName
-                msg.sendToTarget()
-            }
-            fileName = null
-            handler = null
         }
     }
 
@@ -84,16 +67,28 @@ class PcmUtil private constructor() {
 
         audioTrack?.apply {
             try {
+
                 play()
-                val fis = FileInputStream(File("$downloadPath$fileName"))
-                val buff = ByteArray(1024)
-                while (fis.read(buff) != -1) {
-                    write(buff, 0, buff.size)
-                }
-                fis.close()
+                Thread {
+                    val fis = FileInputStream(File("$downloadPath$fileName"))
+                    val buff = ByteArray(1024)
+                    while (playState != PLAYSTATE_PAUSED && fis.read(buff) != -1) {
+                        write(buff, 0, buff.size)
+                    }
+                    fis.close()
+                }.start()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun pause() {
+        audioTrack?.pause()
+    }
+
+    fun stop() {
+        audioTrack?.stop()
+        audioTrack?.flush()
     }
 }

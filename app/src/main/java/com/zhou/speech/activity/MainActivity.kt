@@ -1,4 +1,4 @@
-package com.zhou.speech
+package com.zhou.speech.activity
 
 import android.Manifest
 import android.content.DialogInterface
@@ -11,27 +11,35 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v4.widget.DrawerLayout.STATE_SETTLING
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.text.Editable
+import android.support.v7.graphics.drawable.DrawerArrowDrawable
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.zhou.speech.common.EDIT_ACTION
-import com.zhou.speech.common.EDIT_TEXT
-import io.reactivex.Observable
+import com.zhou.speech.BaseActivity
+import com.zhou.speech.R
+import com.zhou.speech.common.hideSoftInput
+import com.zhou.speech.contract.MainPresent
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_setting_speech.*
 import kotlinx.android.synthetic.main.layout_edit.*
-import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity<MainPresent>(), NavigationView.OnNavigationItemSelectedListener {
 
-    private val TAG = "Speech"
 
     lateinit var editFragment: EditFragment
+
+    private var nextTarget: Class<*>? = null
+
+    override fun setContentView() {
+    }
+
+    override fun init() {
+    }
+
+    override fun addListener() {
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +47,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"))
 
+        val slider = DrawerArrowDrawable(this)
+        slider.color = Color.WHITE
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        toggle.drawerArrowDrawable = slider
         drawer_layout.addDrawerListener(toggle)
         drawer_layout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {
                 if (STATE_SETTLING == newState) {
+                    hideSoftInput(this@MainActivity, editPad.windowToken)
                     toolbar.title = if (drawer_layout.isDrawerOpen(Gravity.START))
-                        resources.getString(R.string.app_name) else "更多"
+                        resources.getString(R.string.app_name) else "设置"
                 }
             }
 
@@ -54,14 +66,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             override fun onDrawerClosed(drawerView: View?) {
+                if (nextTarget != null) {
+                    startActivity(Intent(this@MainActivity, nextTarget))
+                    nextTarget = null
+                }
             }
 
             override fun onDrawerOpened(drawerView: View?) {
+
             }
         })
         toggle.syncState()
 
-        editFragment = supportFragmentManager.findFragmentById(R.id.editFragment) as EditFragment
         nav_view.setNavigationItemSelectedListener(this)
 
         val rxPermissions = RxPermissions(this)
@@ -87,16 +103,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
 
-        if (EDIT_ACTION == intent.action) {
-            supportActionBar?.apply {
-                setDisplayShowHomeEnabled(true)
-            }
-            editPad.isEnabled = true
-            editPad.text = Editable.Factory.getInstance().newEditable(
-                    intent.getStringExtra(EDIT_TEXT) ?: "")
-            editFragment.setEditText(intent.getStringExtra(EDIT_TEXT) ?: "")
-        }
+        editFragment = supportFragmentManager.findFragmentById(R.id.editFragment) as EditFragment
 
+        present = MainPresent(editFragment)
+        editFragment.loadData(present)
     }
 
     override fun onBackPressed() {
@@ -108,45 +118,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item!!.itemId == R.id.action_edit) {
-//            editPad.isEnabled = !editPad.isEnabled
+        if (item?.itemId == R.id.action_clean) {
+            editFragment.clearText()
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        present.destroy()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        drawer_layout.closeDrawer(GravityCompat.START)
         when (item.itemId) {
-            R.id.nav_bd -> {
-                Toast.makeText(this@MainActivity, "百度设置", Toast.LENGTH_LONG).show()
-            }
-            R.id.nav_xf -> {
-                Toast.makeText(this@MainActivity, "讯飞设置", Toast.LENGTH_LONG).show()
-            }
+//            R.id.nav_bd -> {
+//                Toast.makeText(this@MainActivity, "百度设置", Toast.LENGTH_LONG).show()
+//            }
+//            R.id.nav_xf -> {
+//                Toast.makeText(this@MainActivity, "讯飞设置", Toast.LENGTH_LONG).show()
+//            }
             R.id.nav_setting -> {
-                Observable.timer(500, TimeUnit.MILLISECONDS)
-                        .subscribe {
-                            startActivity(Intent(this@MainActivity, SpeechSettingActivity::class.java))
-                        }
+                nextTarget = SpeechSettingActivity::class.java
             }
             R.id.nav_download -> {
 
-                Observable.timer(150, TimeUnit.MILLISECONDS)
-                        .subscribe {
-                            startActivity(Intent(this@MainActivity, SpeechFileActivity::class.java))
-                        }
+                nextTarget = SpeechFileActivity::class.java
             }
             R.id.nav_save -> {
-                Observable.timer(150, TimeUnit.MILLISECONDS)
-                        .subscribe {
-                            startActivity(Intent(this@MainActivity, HistoryActivity::class.java))
-                        }
+                nextTarget = HistoryActivity::class.java
             }
             R.id.nav_share -> {
 
@@ -155,7 +160,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
         }
-
+        if (nextTarget != null) {
+            drawer_layout.closeDrawer(Gravity.START)
+        }
         return true
     }
 }

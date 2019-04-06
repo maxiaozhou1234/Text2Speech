@@ -7,21 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.zhou.speech.R
-import kotlinx.android.synthetic.main.layout_text.view.*
+import com.zhou.speech.db.SimpleFile
 
-class TextAdapter : RecyclerView.Adapter<TextAdapter.ViewHolder> {
+class TextAdapter(val context: Context, data: ArrayList<SimpleFile>) : RecyclerView.Adapter<TextAdapter.ViewHolder>() {
 
-    private val context: Context
-    private val data = arrayListOf<String>()
+    private var data = arrayListOf<SimpleFile>()
 
-    constructor(context: Context) {
-        this.context = context
-
-        var it = "文本显示测试文本显示测试文本显示测试文本显示测试文本显示测试"
-        for (i in 0..20) {
-            it += "item $i"
-            data.add(it)
-        }
+    init {
+        this@TextAdapter.data = data
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -34,13 +27,14 @@ class TextAdapter : RecyclerView.Adapter<TextAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.apply {
-            val t = data[position]
+            val file = data[position]
+            val t = "${file.date}\n${file.summary}"
             text.text = t
             text.setOnClickListener {
-                clickListener?.onClick(t)
+                clickListener?.onClick(file.summary)
             }
             text.setOnLongClickListener {
-                clickListener?.onLongClick(it, t)
+                clickListener?.onLongClick(it, file.id)
                 true
             }
         }
@@ -48,9 +42,7 @@ class TextAdapter : RecyclerView.Adapter<TextAdapter.ViewHolder> {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val text: TextView = itemView.findViewById(R.id.text)
-
     }
 
 //    private var clickListener: ((String)-> Unit)? = null
@@ -62,7 +54,7 @@ class TextAdapter : RecyclerView.Adapter<TextAdapter.ViewHolder> {
     interface ClickListener {
         fun onClick(text: String)
 
-        fun onLongClick(view: View, text: String)
+        fun onLongClick(view: View, id: Int)
     }
 
     private var clickListener: ClickListener? = null

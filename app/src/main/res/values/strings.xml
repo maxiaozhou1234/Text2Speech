@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">Speech</string>
+    <!--Speech-->
+    <string name="app_name">语音合成</string>
     <string name="clean">清空</string>
     <string name="download">下载</string>
     <string name="play">播放</string>
     <string name="stop">停止</string>
+    <string name="save">保存</string>
+    <string name="setting_tip">语音试听：</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -14,4 +17,5 @@
 
     <string name="copy">复制</string>
     <string name="success">操作成功</string>
+    <string name="empty_tip">暂无数据\n\n</string>
 </resources>

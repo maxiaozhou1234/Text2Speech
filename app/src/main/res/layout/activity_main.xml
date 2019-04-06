@@ -21,7 +21,7 @@
 
         <fragment
             android:id="@+id/editFragment"
-            android:name="com.zhou.speech.EditFragment"
+            android:name="com.zhou.speech.activity.EditFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

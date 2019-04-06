@@ -1,10 +1,12 @@
-package com.zhou.speech.common
+package com.zhou.speech
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity<T : BasePresent> : AppCompatActivity() {
+
+    lateinit var present: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

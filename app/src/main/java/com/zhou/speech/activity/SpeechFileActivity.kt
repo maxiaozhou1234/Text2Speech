@@ -1,17 +1,18 @@
-package com.zhou.speech
+package com.zhou.speech.activity
 
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import com.zhou.speech.common.BaseActivity
+import com.zhou.speech.BaseActivity
+import com.zhou.speech.R
 import com.zhou.speech.common.FileAdapter
 import com.zhou.speech.common.FileUtil
-import com.zhou.speech.speak.PcmUtil
+import com.zhou.speech.contract.PcmPresent
 import kotlinx.android.synthetic.main.activity_file_speech.*
 
 /**
  * 已下载的音频文件
  */
-class SpeechFileActivity : BaseActivity() {
+class SpeechFileActivity : BaseActivity<PcmPresent>() {
 
     lateinit var adapter: FileAdapter
     val data = arrayListOf<String>()
@@ -28,11 +29,23 @@ class SpeechFileActivity : BaseActivity() {
         data.addAll(FileUtil.getDownloadFiles())
         adapter = FileAdapter(this, data)
         recyclerView.adapter = adapter
+
+        present = PcmPresent()
     }
 
     override fun addListener() {
         adapter.setOnItemClickListener { file, _ ->
-            PcmUtil.instance.play(file)
+            present.play(file)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        present.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        present.stop()
     }
 }
