@@ -4,47 +4,47 @@
     tools:showIn="navigation_view">
 
     <!--<item android:title="发音选择">-->
-        <!--<menu>-->
-            <!--<group android:checkableBehavior="single">-->
-                <!--<item-->
-                    <!--android:id="@+id/nav_bd"-->
-                    <!--android:checked="true"-->
-                    <!--android:icon="@drawable/ic_menu_manage"-->
-                    <!--android:title="百度" />-->
-                <!--<item-->
-                    <!--android:id="@+id/nav_xf"-->
-                    <!--android:icon="@drawable/ic_menu_manage"-->
-                    <!--android:title="讯飞" />-->
-            <!--</group>-->
-        <!--</menu>-->
+    <!--<menu>-->
+    <!--<group android:checkableBehavior="single">-->
+    <!--<item-->
+    <!--android:id="@+id/nav_bd"-->
+    <!--android:checked="true"-->
+    <!--android:icon="@drawable/ic_menu_manage"-->
+    <!--android:title="百度" />-->
+    <!--<item-->
+    <!--android:id="@+id/nav_xf"-->
+    <!--android:icon="@drawable/ic_menu_manage"-->
+    <!--android:title="讯飞" />-->
+    <!--</group>-->
+    <!--</menu>-->
     <!--</item>-->
 
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_setting"
             android:title="发音设置" />
 
         <item
             android:id="@+id/nav_download"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_file"
             android:title="已下载" />
         <item
             android:id="@+id/nav_save"
-            android:icon="@android:drawable/ic_menu_save"
+            android:icon="@drawable/ic_history"
             android:title="历史文本" />
     </group>
 
-    <item android:title="联系">
+    <item android:title="关于">
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_share"
                 android:title="分享" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+            <!--<item-->
+            <!--android:id="@+id/nav_send"-->
+            <!--android:icon="@drawable/ic_menu_send"-->
+            <!--android:title="Send" />-->
         </menu>
     </item>
 

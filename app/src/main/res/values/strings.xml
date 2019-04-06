@@ -18,4 +18,8 @@
     <string name="copy">复制</string>
     <string name="success">操作成功</string>
     <string name="empty_tip">暂无数据\n\n</string>
+
+    <string name="share_des">二维码</string>
+    <string name="share_project">长按复制，在浏览器中查看项目源码\nhttps://github.com/maxiaozhou1234/Text2Speech</string>
+    <string name="splash_tip">让你的文字，说给你听</string>
 </resources>

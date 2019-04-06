@@ -83,6 +83,11 @@ class EditFragment : Fragment(), MainContract.View {
         editPad.clearFocus()
     }
 
+    fun clearFocus() {
+        hideSoftInput(context, editPad.windowToken)
+        editPad.clearFocus()
+    }
+
     private fun checkText(): Boolean {
         return !TextUtils.isEmpty(editPad.text)
     }

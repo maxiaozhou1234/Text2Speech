@@ -20,10 +20,8 @@ import android.widget.Toast
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhou.speech.BaseActivity
 import com.zhou.speech.R
-import com.zhou.speech.common.hideSoftInput
 import com.zhou.speech.contract.MainPresent
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_edit.*
 
 class MainActivity : BaseActivity<MainPresent>(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,7 +54,7 @@ class MainActivity : BaseActivity<MainPresent>(), NavigationView.OnNavigationIte
         drawer_layout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerStateChanged(newState: Int) {
                 if (STATE_SETTLING == newState) {
-                    hideSoftInput(this@MainActivity, editPad.windowToken)
+                    editFragment.clearFocus()
                     toolbar.title = if (drawer_layout.isDrawerOpen(Gravity.START))
                         resources.getString(R.string.app_name) else "设置"
                 }
@@ -154,10 +152,7 @@ class MainActivity : BaseActivity<MainPresent>(), NavigationView.OnNavigationIte
                 nextTarget = HistoryActivity::class.java
             }
             R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
+                nextTarget = ShareActivity::class.java
             }
         }
         if (nextTarget != null) {
