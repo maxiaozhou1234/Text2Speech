@@ -13,15 +13,15 @@
 闪屏页：   
 ![闪屏页](https://github.com/maxiaozhou1234/Text2Speech/blob/master/picture/pic_splash.png)
 
-主页：
+主页：   
 ![主页](https://github.com/maxiaozhou1234/Text2Speech/blob/master/picture/pic_main.png)
 
-侧栏
+侧栏：   
 ![侧栏](https://github.com/maxiaozhou1234/Text2Speech/blob/master/picture/pic_layout.png)
 
-设置
+设置：   
 ![设置](https://github.com/maxiaozhou1234/Text2Speech/blob/master/picture/pic_setting.png)
 
-分享
+分享：   
 ![分享](https://github.com/maxiaozhou1234/Text2Speech/blob/master/picture/pic_share.png)
 
