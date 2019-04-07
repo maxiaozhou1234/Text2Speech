@@ -55,9 +55,9 @@ class SpeechSettingActivity : BaseActivity<SettingPresent>(), SettingContract.Vi
         editText = findViewById(R.id.editText)
         btnPlay = findViewById(R.id.btnPlay)
 
-//        sbSpeed.tag = tvSpeed
-//        sbTone.tag = tvTone
-//        sbVolume.tag = tvVolume
+        sbSpeed.tag = tvSpeed
+        sbTone.tag = tvTone
+        sbVolume.tag = tvVolume
 
 //        map = BDSpeaker.get().getConfig(this)
 
