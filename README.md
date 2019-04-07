@@ -9,7 +9,8 @@
 
 ### 页面展示
 
-闪屏页：
+
+闪屏页：   
 ![闪屏页](https://github.com/maxiaozhou1234/Text2Speech/blob/master/picture/pic_splash.png)
 
 主页：
